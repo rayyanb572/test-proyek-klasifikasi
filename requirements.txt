@@ -6,4 +6,3 @@ numpy
 werkzeug
 tensorflow
 omegaconf
-libgl1
