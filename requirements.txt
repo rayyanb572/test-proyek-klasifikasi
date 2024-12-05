@@ -6,3 +6,4 @@ numpy
 werkzeug
 tensorflow
 omegaconf
+pillow

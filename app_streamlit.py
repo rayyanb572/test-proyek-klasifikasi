@@ -1,7 +1,7 @@
 import os
 import shutil
 import streamlit as st
-import cv2
+from PIL import Image
 import pickle
 import numpy as np
 from keras_facenet import FaceNet
@@ -55,15 +55,23 @@ def classify_faces(file_list, output_folder="output_test"):
         with open(temp_path, "wb") as f:
             f.write(file.getbuffer())
 
-        image = cv2.imread(temp_path)
+        # Open image with Pillow
+        image = Image.open(temp_path)
 
-        results = yolo_model.predict(image)
+        # Convert image to RGB (if it's not already in RGB mode)
+        image = image.convert("RGB")
+
+        # Convert the image to a numpy array
+        image_np = np.array(image)
+
+        results = yolo_model.predict(image_np)
         if not results or not results[0].boxes:
             continue
 
         for bbox in results[0].boxes.xyxy.numpy():
-            face_image = crop_face(image, bbox)
-            face_image_rgb = cv2.cvtColor(face_image, cv2.COLOR_BGR2RGB)
+            face_image = crop_face(image_np, bbox)
+            # Convert the cropped face image to RGB (again, in case it's not in RGB mode)
+            face_image_rgb = Image.fromarray(face_image).convert("RGB")
             face_embedding = embedder.embeddings([face_image_rgb])[0]
 
             match = find_match(face_embedding)
