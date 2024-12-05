@@ -1,0 +1,12 @@
+streamlit
+keras-facenet
+ultralytics
+numpy
+opencv-python-headless
+werkzeug
+tensorflow
+omegaconf
+opencv-python
+opencv-contrib-python
+streamlit
+BytesIO
