@@ -6,5 +6,3 @@ opencv-python-headless
 werkzeug
 tensorflow
 omegaconf
-opencv-python
-opencv-contrib-python
