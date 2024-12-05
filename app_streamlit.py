@@ -4,8 +4,6 @@ import streamlit as st
 import cv2
 import pickle
 import numpy as np
-import zipfile
-from io import BytesIO
 from keras_facenet import FaceNet
 from ultralytics import YOLO
 
@@ -46,19 +44,6 @@ def clear_folder(folder_path):
     if os.path.exists(folder_path):
         shutil.rmtree(folder_path)
     os.makedirs(folder_path, exist_ok=True)
-
-def zip_folder(folder_path):
-    """
-    Compress a folder into a ZIP file and return the BytesIO object.
-    """
-    zip_buffer = BytesIO()
-    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
-        for root, _, files in os.walk(folder_path):
-            for file in files:
-                file_path = os.path.join(root, file)
-                zip_file.write(file_path, os.path.relpath(file_path, folder_path))
-    zip_buffer.seek(0)
-    return zip_buffer
 
 def classify_faces(file_list, output_folder="output_test"):
     unknown_folder = os.path.join(output_folder, "unknown")
@@ -126,22 +111,12 @@ def main():
             output_folder = classify_faces(uploaded_files)
             st.success(f"Proses selesai! Folder output: {output_folder}")
 
-            # Tampilkan folder dan gambar hasil klasifikasi
             if os.path.exists(output_folder):
                 for folder_name in os.listdir(output_folder):
                     folder_path = os.path.join(output_folder, folder_name)
                     st.write(f"📂 Folder: {folder_name}")
                     for file_name in os.listdir(folder_path):
                         st.image(os.path.join(folder_path, file_name), caption=file_name, use_column_width=True)
-
-                # Buat file ZIP untuk diunduh
-                zip_buffer = zip_folder(output_folder)
-                st.download_button(
-                    label="Unduh Hasil sebagai ZIP",
-                    data=zip_buffer,
-                    file_name="classification_results.zip",
-                    mime="application/zip"
-                )
 
 if __name__ == "__main__":
     main()
