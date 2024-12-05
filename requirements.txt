@@ -7,6 +7,3 @@ werkzeug
 tensorflow
 omegaconf
 opencv-python
-opencv-contrib-python
-streamlit
-BytesIO
