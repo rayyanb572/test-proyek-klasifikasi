@@ -6,5 +6,4 @@ numpy
 werkzeug
 tensorflow
 omegaconf
-libgl1-mesa-glx
-libglib2.0-0
+libgl1
