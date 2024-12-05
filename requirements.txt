@@ -1,7 +1,6 @@
 streamlit
 keras-facenet
-opencv-python-headless
-opencv-python
+opencv-python-contrib-headless
 ultralytics
 numpy
 werkzeug
